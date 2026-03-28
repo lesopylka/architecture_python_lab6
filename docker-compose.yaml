@@ -1,0 +1,20 @@
+services:
+  auth:
+    build: ./auth-service
+    ports:
+      - "8081:8081"
+
+  users:
+    build: ./user-service
+    ports:
+      - "8082:8082"
+
+  wall:
+    build: ./wall-service
+    ports:
+      - "8083:8083"
+
+  chat:
+    build: ./chat-service
+    ports:
+      - "8084:8084"

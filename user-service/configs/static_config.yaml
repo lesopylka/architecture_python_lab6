@@ -11,7 +11,7 @@ components_manager:
     components:
         server:
             listener:
-                port: 8081
+                port: 8082
                 task_processor: main-task-processor
 
         logging:
