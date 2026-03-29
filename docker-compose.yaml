@@ -1,20 +1,30 @@
 services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: userver-base
+
   auth:
-    build: ./auth-service
-    ports:
-      - "8081:8081"
+    build:
+      context: ./auth-service
+    depends_on:
+      - base
 
   users:
-    build: ./user-service
-    ports:
-      - "8082:8082"
-
-  wall:
-    build: ./wall-service
-    ports:
-      - "8083:8083"
+    build:
+      context: ./user-service
+    depends_on:
+      - base
 
   chat:
-    build: ./chat-service
-    ports:
-      - "8084:8084"
+    build:
+      context: ./chat-service
+    depends_on:
+      - base
+
+  wall:
+    build:
+      context: ./wall-service
+    depends_on:
+      - base

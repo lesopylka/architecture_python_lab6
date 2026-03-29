@@ -1,0 +1,19 @@
+FROM ghcr.io/userver-framework/ubuntu-22.04-userver-base:latest
+
+RUN apt update && apt install -y dos2unix && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY userver /app/userver
+
+WORKDIR /app/userver
+
+RUN find chaotic -type f -exec sed -i 's/\r$//' {} + && \
+    find chaotic -type f -path "*/bin/*" -exec chmod +x {} + && \
+    find chaotic -type f -name "*.py" -exec chmod +x {} + || true
+
+RUN rm -rf build
+
+RUN cmake -S . -B build -G Ninja \
+    -DUSERVER_FEATURE_TESTSUITE=OFF
+
+RUN cmake --build build -j2
