@@ -4,21 +4,29 @@ services:
       context: ./auth-service
     security_opt:
       - seccomp=unconfined
+    ports:
+      - "8081:8081"
 
   users:
     build:
       context: ./user-service
     security_opt:
       - seccomp=unconfined
+    ports:
+      - "8082:8082"
 
   chat:
     build:
       context: ./chat-service
     security_opt:
       - seccomp=unconfined
+    ports:
+      - "8084:8084"
 
   wall:
     build:
       context: ./wall-service
     security_opt:
       - seccomp=unconfined
+    ports:
+      - "8083:8083"
