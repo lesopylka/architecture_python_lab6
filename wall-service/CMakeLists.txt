@@ -26,9 +26,10 @@ add_library(
 )
 target_link_libraries(
     ${PROJECT_NAME}_objs
-    PUBLIC userver::core #
+    PUBLIC
+    userver::core
+    userver::postgresql
 )
-
 
 # The Service
 add_executable(${PROJECT_NAME} src/main.cpp)

@@ -36,9 +36,7 @@ std::string PostsHandler::HandleRequestThrow(
 
         auto result = pg_cluster_->Execute(
             userver::storages::postgres::ClusterHostType::kMaster,
-            "INSERT INTO posts(author_id, content) "
-            "VALUES($1, $2) "
-            "RETURNING id",
+            "INSERT INTO posts(author_id, content) VALUES($1, $2) RETURNING id",
             user_id,
             content
         );
@@ -65,10 +63,7 @@ std::string PostsHandler::HandleRequestThrow(
 
             auto result = pg_cluster_->Execute(
                 userver::storages::postgres::ClusterHostType::kSlave,
-                "SELECT id, author_id, content "
-                "FROM posts "
-                "WHERE author_id = $1 "
-                "ORDER BY created_at DESC",
+                "SELECT id, author_id, content FROM posts WHERE author_id = $1 ORDER BY created_at DESC",
                 user_id
             );
 
@@ -82,9 +77,7 @@ std::string PostsHandler::HandleRequestThrow(
         } else {
             auto result = pg_cluster_->Execute(
                 userver::storages::postgres::ClusterHostType::kSlave,
-                "SELECT id, author_id, content "
-                "FROM posts "
-                "ORDER BY created_at DESC"
+                "SELECT id, author_id, content FROM posts ORDER BY created_at DESC"
             );
 
             for (const auto& row : result) {
