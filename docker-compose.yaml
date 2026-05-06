@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   base:
     build:
@@ -78,17 +76,25 @@ services:
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - mongo_data:/data/db
 
+  redis:
+    image: redis:7
+    container_name: social-network-redis
+    ports:
+      - "6380:6379"
+
   mongo_api:
     build:
       context: ./mongo-api
     container_name: social-network-mongo-api
     depends_on:
       - mongo
+      - redis
     ports:
       - "8000:8000"
     environment:
       MONGO_URL: mongodb://mongo:27017
       MONGO_DB: social_network_mongo
+      REDIS_URL: redis://redis:6379
 
 volumes:
   mongo_data:
