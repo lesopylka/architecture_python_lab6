@@ -13,6 +13,8 @@
 - [Гарантия доставки](#гарантия-доставки)
 - [Запуск](#запуск)
 - [Проверка](#проверка)
+  - [Проверка producer](#проверка-producer)
+  - [Проверка событий:](#проверка-событий)
 - [RabbitMQ UI](#rabbitmq-ui)
 
 
@@ -167,7 +169,26 @@ docker compose run --rm event_producer
 docker exec -it social-network-mongo mongosh
 ```
 
-Проверка событий:
+## Проверка producer
+
+Producer успешно публикует события:
+
+- UserCreated
+- PostCreated
+- MessageSent
+- PostLiked
+- CommentAdded
+
+После запуска команды:
+
+```bash
+docker compose run --rm event_producer
+```
+
+
+## Проверка событий:
+
+Consumer обрабатывает события и сохраняет их в MongoDB.
 
 ```bash
 use social_network_mongo
@@ -188,9 +209,9 @@ http://localhost:15672
 ```
 
 Логин:
-
+```text
 guest
-
+```
 
 Пароль:
 

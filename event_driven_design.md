@@ -11,6 +11,8 @@
 - [Exchange](#exchange)
 - [Routing Keys](#routing-keys)
 - [Формат события](#формат-события)
+  - [Команды, события и подписчики](#команды-события-и-подписчики)
+  - [Выбор exchange](#выбор-exchange)
 - [Поток событий](#поток-событий)
 - [CQRS](#cqrs)
   - [Write model](#write-model)
@@ -143,7 +145,27 @@ comment.added
 }
 ```
 
+## Команды, события и подписчики
+
+| Команда | Событие | Routing key | Кого уведомляем |
+|---|---|---|---|
+| CreateUser | UserCreated | user.created | notification-service, analytics-service, read-model-service |
+| CreatePost | PostCreated | post.created | notification-service, analytics-service, read-model-service |
+| SendMessage | MessageSent | message.sent | notification-service, analytics-service |
+| LikePost | PostLiked | post.liked | notification-service, analytics-service, read-model-service |
+| AddComment | CommentAdded | comment.added | notification-service, analytics-service, read-model-service |
  
+## Выбор exchange
+
+Используется `topic exchange`, потому что события удобно разделять по routing key.
+
+Например:
+
+- `user.created`
+- `post.created`
+- `message.sent`
+
+Consumer может подписаться как на конкретный тип событий, например `post.created`, так и на группу событий, например `post.*`.
 
 # Поток событий
 
