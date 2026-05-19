@@ -96,5 +96,35 @@ services:
       MONGO_DB: social_network_mongo
       REDIS_URL: redis://redis:6379
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: social-network-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  event_consumer:
+    build:
+      context: ./event-service
+    container_name: social-network-event-consumer
+    depends_on:
+      - rabbitmq
+      - mongo
+    environment:
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
+      MONGO_URL: mongodb://mongo:27017
+      MONGO_DB: social_network_mongo
+    command: python consumer.py
+
+  event_producer:
+    build:
+      context: ./event-service
+    container_name: social-network-event-producer
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
+    command: python producer.py
+
 volumes:
   mongo_data:
